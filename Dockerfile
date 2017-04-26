@@ -31,6 +31,10 @@ RUN \
     tar vxzf spark-${SPARK_VERSION}-bin-hadoop2.7.tgz --strip 1 -C ${SPARK_HOME} && \
     rm spark-${SPARK_VERSION}-bin-hadoop2.7.tgz
 
+# Copy scripts
+COPY start-master /usr/bin/start-master
+COPY start-worker /usr/bin/start-worker
+
 # Add spark bin path to PATH
 ENV PATH $PATH:${SPARK_HOME}/bin
 

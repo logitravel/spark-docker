@@ -22,20 +22,22 @@ docker network create --driver bridge my_spark_cluster
 
 ```bash
 # Environment variables
+MASTER_HOSTNAME=master       # Master Hostname
 MASTER=spark://master:7077   # Master URI
 SPARK_CONF_DIR=/conf         # Configuration path
 SPARK_PUBLIC_DNS=localhost   # Public DNS
 ```
 
 ```bash
-docker run -e MASTER="spark://mymaster:7077" \
+docker run -e MASTER_HOSTNAME="mymaster" \
+           -e MASTER="spark://mymaster:7077" \
            -e SPARK_PUBLIC_DNS="localhost" \
            --network=my_spark_cluster \
            -h mymaster \
            --name mymaster \
            -p "8080:8080" \
            -p "7077:7077" \
-           -ti logitravel/spark-docker spark-class org.apache.spark.deploy.master.Master -h mymaster
+           -ti logitravel/spark-docker start-master
 ```
 
 #### Run worker
@@ -62,7 +64,7 @@ docker run -e MASTER="spark://mymaster:7077" \
            --network=my_spark_cluster \
            --link mymaster:mymaster \
            -p "4040:4040" \
-           -ti logitravel/spark-docker spark-class org.apache.spark.deploy.worker.Worker spark://mymaster:7077
+           -ti logitravel/spark-docker start-worker
 ```
 
 ### License
