@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# If is a remote jar, download it
+if [[ $JAR =~ ^http ]]; then
+  wget ${JAR} -O /tmp/download.jar
+  JAR=/tmp/download.jar
+fi
+
+# Spark submit
+spark-submit --class ${MAIN_CLASS} \
+             --master ${MASTER} \
+             --executor-memory ${EXECUTOR_MEMORY} \
+             --packages ${DEPENDENCIES} \
+             --name ${JOB_NAME} \
+             ${JAR}

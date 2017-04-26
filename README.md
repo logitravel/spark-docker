@@ -36,7 +36,6 @@ docker run -e MASTER_HOSTNAME="mymaster" \
            -h mymaster \
            --name mymaster \
            -p "8080:8080" \
-           -p "7077:7077" \
            -ti logitravel/spark-docker start-master
 ```
 
@@ -63,9 +62,34 @@ docker run -e MASTER="spark://mymaster:7077" \
            -e SPARK_PUBLIC_DNS="localhost" \
            --network=my_spark_cluster \
            --link mymaster:mymaster \
-           -p "4040:4040" \
            -ti logitravel/spark-docker start-worker
 ```
+
+#### Run driver
+
+```bash
+# Environment variables
+MASTER=spark://master:7077
+MAIN_CLASS=com.logitravel.somesparkjob.Main
+EXECUTOR_MEMORY=1g
+DEPENDENCIES=org.apache.spark:spark-streaming_2.11:2.1.0,org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0
+JOB_NAME=somename
+JAR=http://example.com/repository/some-spark-job.jar
+```
+
+```bash
+docker run -e MASTER="spark://mymaster:7077" \
+           -e MAIN_CLASS="com.logitravel.somesparkjob.Main" \
+           -e EXECUTOR_MEMORY="1g" \
+           -e DEPENDENCIES="org.apache.spark:spark-streaming_2.11:2.1.0,org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0" \
+           -e JOB_NAME="jobname" \
+           -e JAR="http://example.com/repository/some-spark-job.jar" \
+           --network=my_spark_cluster \
+           --link mymaster:mymaster \
+           -p "4040:4040" \
+           -ti logitravel/spark-docker start-driver
+```
+
 
 ### License
 

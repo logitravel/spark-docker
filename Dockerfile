@@ -34,6 +34,7 @@ RUN \
 # Copy scripts
 COPY start-master /usr/bin/start-master
 COPY start-worker /usr/bin/start-worker
+COPY start-driver /usr/bin/start-driver
 
 # Add spark bin path to PATH
 ENV PATH $PATH:${SPARK_HOME}/bin
