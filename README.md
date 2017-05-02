@@ -21,14 +21,6 @@ docker network create --driver bridge my_spark_cluster
 #### Run master
 
 ```bash
-# Environment variables
-MASTER_HOSTNAME=master       # Master Hostname
-MASTER=spark://master:7077   # Master URI
-SPARK_CONF_DIR=/conf         # Configuration path
-SPARK_PUBLIC_DNS=localhost   # Public DNS
-```
-
-```bash
 docker run -e MASTER_HOSTNAME="mymaster" \
            -e MASTER="spark://mymaster:7077" \
            -e SPARK_PUBLIC_DNS="localhost" \
@@ -40,17 +32,6 @@ docker run -e MASTER_HOSTNAME="mymaster" \
 ```
 
 #### Run worker
-
-```bash
-# Environment variables
-MASTER=spark://master:7077
-SPARK_CONF_DIR=/conf
-SPARK_WORKER_CORES=2
-SPARK_WORKER_MEMORY=512m
-SPARK_WORKER_PORT=8881
-SPARK_WORKER_WEBUI_PORT=8081
-SPARK_PUBLIC_DNS=localhost
-```
 
 ```bash
 docker run -e MASTER="spark://mymaster:7077" \
@@ -68,19 +49,12 @@ docker run -e MASTER="spark://mymaster:7077" \
 #### Run driver
 
 ```bash
-# Environment variables
-MASTER=spark://master:7077
-MAIN_CLASS=com.logitravel.somesparkjob.Main
-EXECUTOR_MEMORY=1g
-DEPENDENCIES=org.apache.spark:spark-streaming_2.11:2.1.0,org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0
-JOB_NAME=somename
-JAR=http://example.com/repository/some-spark-job.jar
-```
-
-```bash
 docker run -e MASTER="spark://mymaster:7077" \
            -e MAIN_CLASS="com.logitravel.somesparkjob.Main" \
+           -e DRIVER_MEMORY="1g" \
            -e EXECUTOR_MEMORY="1g" \
+           -e EXECUTOR_CORES="8" \
+           -e TOTAL_EXECUTOR_CORES="48" \
            -e DEPENDENCIES="org.apache.spark:spark-streaming_2.11:2.1.0,org.apache.spark:spark-streaming-kafka-0-8_2.11:2.1.0" \
            -e JOB_NAME="jobname" \
            -e JAR="http://example.com/repository/some-spark-job.jar" \
