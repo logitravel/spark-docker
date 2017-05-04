@@ -1,3 +1,5 @@
 #!/bin/bash
 
-spark-class org.apache.spark.deploy.worker.Worker ${MASTER}
+spark-class org.apache.spark.deploy.worker.Worker ${MASTER}exit $?
+exit $?
+
