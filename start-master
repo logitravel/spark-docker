@@ -1,3 +1,4 @@
 #!/bin/bash
 
 spark-class org.apache.spark.deploy.master.Master -h ${MASTER_HOSTNAME}
+exit $?
