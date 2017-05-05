@@ -1,26 +1,28 @@
-FROM ubuntu:16.04
-MAINTAINER Cristòfol Torrens "tofol.torrens@logitravel.com"
+FROM alpine:3.5
+MAINTAINER Vicenç Juan Tomàs Monserrat <vtomasr5@gmail.com>
 
 LABEL STB_VERSION=0.13.13
 LABEL SPARK_VERSION=2.1.0
 LABEL HADOOP_VERSION=2.7
 
-# Install java (extracted from https://github.com/dockerfile/java)
+# Install required packages
 RUN \
-    apt-get update && \
-    apt-get -y install software-properties-common && \
-    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-    add-apt-repository -y ppa:webupd8team/java && \
-    apt-get update && \
-    apt-get install -y oracle-java8-installer wget && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/oracle-jdk8-installer
+    apk update && \
+    apk add openjdk8 wget bash tar gzip
+
+WORKDIR /opt
 
 # Install SBT
+ENV SBT_VERSION 0.13.15
+ENV SBT_HOME /opt/sbt
 RUN \
-    wget https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && \
-    dpkg -i sbt-0.13.13.deb && \
-    rm sbt-0.13.13.deb
+    mkdir -p /opt && \
+    wget https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz && \
+    tar -zvxf sbt-${SBT_VERSION}.tgz -C /opt && \
+    rm sbt-${SBT_VERSION}.tgz
+
+# Add sbt bin path to PATH
+ENV PATH $PATH:${SBT_HOME}/bin
 
 # Install Spark
 ENV SPARK_VERSION 2.1.0
@@ -40,4 +42,5 @@ COPY start-driver /usr/bin/start-driver
 ENV PATH $PATH:${SPARK_HOME}/bin
 
 # Set Java HOME
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+
