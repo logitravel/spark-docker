@@ -7,13 +7,13 @@ if [[ $JAR =~ ^http ]]; then
 fi
 
 # Spark submit
-exit spark-submit --class ${MAIN_CLASS} \
-                  --master ${MASTER} \
-                  --driver-memory ${DRIVER_MEMORY} \
-                  --executor-memory ${EXECUTOR_MEMORY} \
-                  --executor-cores ${EXECUTOR_CORES} \
-                  --total-executor-cores ${TOTAL_EXECUTOR_CORES} \
-                  --packages ${DEPENDENCIES} \
-                  --supervise \
-                  --name ${JOB_NAME} \
-                  ${JAR} $@
+spark-submit --class ${MAIN_CLASS} \
+             --master ${MASTER} \
+             --driver-memory ${DRIVER_MEMORY} \
+             --executor-memory ${EXECUTOR_MEMORY} \
+             --executor-cores ${EXECUTOR_CORES} \
+             --total-executor-cores ${TOTAL_EXECUTOR_CORES} \
+             --packages ${DEPENDENCIES} \
+             --supervise \
+             --name ${JOB_NAME} \
+             ${JAR} $@
