@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER Cristòfol Torrens "tofol.torrens@logitravel.com"
 
 LABEL STB_VERSION=0.13.13
-LABEL SPARK_VERSION=2.1.0
+LABEL SPARK_VERSION=2.1.1
 LABEL HADOOP_VERSION=2.7
 
 # Install java (extracted from https://github.com/dockerfile/java)
@@ -23,7 +23,7 @@ RUN \
     rm sbt-0.13.13.deb
 
 # Install Spark
-ENV SPARK_VERSION 2.1.0
+ENV SPARK_VERSION 2.1.1
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 RUN \
     mkdir ${SPARK_HOME} && \
