@@ -4,13 +4,13 @@ LABEL MAINTAINER Cristòfol Torrens Morell "piffall@gmail.com"
 LABEL CONTRIBUTOR Vicenç Juan Tomàs Monserrat "vtomasr5@gmail.com"
 
 LABEL STB_VERSION=0.13.13
-LABEL SPARK_VERSION=2.1.0
+LABEL SPARK_VERSION=2.1.1
 LABEL HADOOP_VERSION=2.7
 
 # Install required packages
 RUN \
     apk update && \
-    apk add openjdk8 wget bash tar gzip
+    apk add openjdk8 wget bash tar gzip dcron
 
 WORKDIR /opt
 
@@ -27,7 +27,7 @@ RUN \
 ENV PATH $PATH:${SBT_HOME}/bin
 
 # Install Spark
-ENV SPARK_VERSION 2.1.0
+ENV SPARK_VERSION 2.1.1
 ENV HADOOP_VERSION 2.7
 ENV SPARK_HOME /usr/spark-${SPARK_VERSION}
 RUN \
