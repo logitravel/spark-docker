@@ -64,6 +64,22 @@ docker run -e MASTER="spark://mymaster:7077" \
            -ti logitravel/spark-docker start-driver
 ```
 
+### Deployment using docker swarm
+
+#### Create the network
+```
+docker network create -d overlay spark --attachable
+```
+
+#### Create the service stack
+```
+docker stack deploy -c docker-compose.yml spark
+```
+
+#### Scale cluster
+```
+docker service scale spark_worker=100
+```
 
 ### License
 

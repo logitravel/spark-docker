@@ -1,0 +1,46 @@
+# Docker compose file to deploy using docker-compose, or docker swarm
+version: '3'
+
+services:
+
+  master:
+    image: logitravel/spark-docker:2.0
+    command: start-master
+    environment:
+      MASTER_HOSTNAME: 0.0.0.0
+      MASTER: spark://master:7077
+      SPARK_CONF_DIR: /conf
+      SPARK_PUBLIC_DNS: localhost
+    networks:
+      - spark
+    volumes:
+      - /tmp:/tmp
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+
+  worker:
+    image: logitravel/spark-docker:2.0
+    links:
+      - master:master
+    depends_on:
+      - master
+    volumes:
+      - /tmp:/tmp
+    environment:
+      MASTER: spark://master:7077
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 512m
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      SPARK_PUBLIC_DNS: localhost
+    networks:
+      - spark
+    deploy:
+      replicas: 4
+    command: start-worker
+
+networks:
+  spark:
+    external: true
