@@ -57,7 +57,7 @@ docker run -e MASTER="spark://master:7077" \
            -e TOTAL_EXECUTOR_CORES="2" \
            -e DEPENDENCIES="org.apache.spark:spark-streaming_2.11:2.1.0" \
            -e JOB_NAME="app" \
-           -e JAR="https://raw.githubusercontent.com/logitravel/spark-hello-world/master/target/scala-2.11/spark-hello-world_2.11-1.0.jar" \
+           -e JAR="https://github.com/logitravel/spark-hello-world/releases/download/1.0/spark-hello-world_2.11-1.0.jar" \
            --network=spark \
            --link master:master \
            -p "4040:4040" \
