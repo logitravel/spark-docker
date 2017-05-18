@@ -1,20 +1,22 @@
 #!/bin/bash
 
+MODE=${MODE:=client}
+
 # If is a remote jar, download it
-if [[ $JAR =~ ^http ]]; then
+if [[ $MODE == "client" && $JAR =~ ^http ]]; then
   wget ${JAR} -O /tmp/download.jar
   JAR=/tmp/download.jar
 fi
 
 # Spark submit
 spark-submit --class ${MAIN_CLASS} \
+             --deploy-mode ${MODE} \
              --master ${MASTER} \
              --driver-memory ${DRIVER_MEMORY} \
              --executor-memory ${EXECUTOR_MEMORY} \
              --executor-cores ${EXECUTOR_CORES} \
              --total-executor-cores ${TOTAL_EXECUTOR_CORES} \
              --packages ${DEPENDENCIES} \
-             --deploy-mode ${MODE:=client} \
              --supervise \
              --name ${JOB_NAME} \
              ${JAR} $@
